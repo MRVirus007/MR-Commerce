@@ -10,6 +10,7 @@
             <input type="password" placeholder='*****' class='password' formControlName="password"><br>
             <button type="button" class='btn-login' id='do-login' (click)="login()">Login</button>
             <a href="#" class='forgot' [routerLink]="['/signup']">Not Registered? Sign up here</a>
+            <p class="text-light mt-2 fw-bold" *ngIf="loginError !== ''">{{ loginError }}</p>
         </form>
     </div>
 </section>

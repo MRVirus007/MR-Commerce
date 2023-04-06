@@ -10,41 +10,63 @@ export class ProductListComponent implements OnInit {
   products: Product[];
   searchTerm: string;
   currentPage = 1;
-  productsPerPage = 3;
+  productsPerPage = 10;
   totalPages: number = 0;
-
   constructor(private productService: ProductService) {
     this.products = [];
     this.searchTerm = "";
   }
 
   ngOnInit(): void {
-    this.productService.getProducts(this.currentPage, this.productsPerPage).subscribe(products => {
+    this.getAllProducts();
+  }
+
+  getAllProducts() {
+    this.productService.getProducts().subscribe(products => {
       this.products = products;
-      this.totalPages = Math.ceil(this.products.length * this.productsPerPage / this.productsPerPage);
+      this.totalPages = Math.ceil(this.products.length / this.productsPerPage);
     });
   }
 
   applyFilter(filterData: { category: string, priceRange: string }, currentPage: number, productsPerPage: number) {
     const { category, priceRange } = filterData;
-    const startAfter = (currentPage - 1) * productsPerPage;
-    this.productService.getProductsByCategory(category, startAfter)
-      .subscribe((products: any[]) => {
-        this.products = products.filter(product => {
-          const price = product.price;
-          if (priceRange === 'All') {
-            return true;
-          } else if (priceRange === 'Cheap') {
-            return price <= 10;
-          } else if (priceRange === 'Moderate') {
-            return price > 10 && price <= 100;
-          } else if (priceRange === 'Expensive') {
-            return price > 100 && price <= 1000;
-          } else {
-            return false;
-          }
-        });
+    if (category === 'All') {
+      this.getAllProducts();
+      this.products = this.products.filter(product => {
+        const price = product.price;
+        if (priceRange === 'All') {
+          return true;
+        } else if (priceRange === 'Low Cost') {
+          return price <= 10;
+        } else if (priceRange === 'Moderate') {
+          return price > 10 && price <= 100;
+        } else if (priceRange === 'Expensive') {
+          return price > 100 && price <= 1000;
+        } else {
+          return false;
+        }
       });
+    } else {
+      this.productService.getProductsByCategory(category)
+        .subscribe((products: any[]) => {
+          console.log(products);
+          this.products = products.filter(product => {
+            const price = product.price;
+            if (priceRange === 'All') {
+              return true;
+            } else if (priceRange === 'Low Cost') {
+              return price <= 10;
+            } else if (priceRange === 'Moderate') {
+              return price > 10 && price <= 100;
+            } else if (priceRange === 'Expensive') {
+              return price > 100 && price <= 1000;
+            } else {
+              return false;
+            }
+          });
+        });
+    }
+
   }
 
 
@@ -54,36 +76,24 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  hasPreviousPage(): boolean {
-    return this.currentPage > 1;
-  }
+  // hasPreviousPage(): boolean {
+  //   return this.currentPage > 1;
+  // }
 
-  hasNextPage(): boolean {
-    return this.currentPage < this.totalPages;
-  }
+  // hasNextPage(): boolean {
+  //   return this.currentPage < this.totalPages;
+  // }
 
-  previousPage(): void {
-    if (this.hasPreviousPage()) {
-      this.currentPage--;
-    }
-  }
+  // previousPage(): void {
+  //   if (this.hasPreviousPage()) {
+  //     this.currentPage--;
+  //   }
+  // }
 
-  nextPage(): void {
-    if (this.hasNextPage()) {
-      this.currentPage++;
-    }
-  }
-
-  get startIndex(): number {
-    return (this.currentPage - 1) * this.productsPerPage;
-  }
-
-  get endIndex(): number {
-    return Math.min(this.startIndex + this.productsPerPage, this.products.length);
-  }
-
-  get paginatedProducts(): Product[] {
-    return this.filterProducts().slice(this.startIndex, this.endIndex);
-  }
+  // nextPage(): void {
+  //   if (this.hasNextPage()) {
+  //     this.currentPage++;
+  //   }
+  // }
 
 }

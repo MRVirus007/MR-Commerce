@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -21,7 +21,7 @@ export class SignupComponent {
   async signup() {
     const { email, username, password } = this.signupForm.value;
     try {
-      await this.authService.signUp(email, password, username);
+      this.signupError = "Error: " + await this.authService.signUp(email, password, username);
     } catch (err: any) {
       this.signupError = err.message;
     }

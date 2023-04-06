@@ -38,7 +38,7 @@ export class AuthService {
     return this.afAuth.authState;
   }
 
-  async signUp(email: string, password: string, username: string) {
+  async signUp(email: string, password: string, username: string): Promise<string | undefined> {
     try {
       // Check if email or username already exists
       const emailExists = await this.usersCollection.ref.where('email', '==', email).get();
@@ -62,13 +62,15 @@ export class AuthService {
         localStorage.setItem('token', token);
         this.router.navigate(['/']);
       }
-    } catch (err) {
-      console.log(err);
+      return "";
+    } catch (err: any) {
+      //throw new Error('Error: ', err.message);
+      return err.message;
     }
   }
 
 
-  async login(email: string, password: string) {
+  async login(email: string, password: string): Promise<string | undefined> {
     try {
       const credential = await this.afAuth.signInWithEmailAndPassword(email, password);
       if (credential.user) {
@@ -76,8 +78,10 @@ export class AuthService {
         localStorage.setItem('token', token);
         this.router.navigate(['/']);
       }
-    } catch (err) {
+      return "";
+    } catch (err: any) {
       console.log(err);
+      return err.message;
     }
   }
 

@@ -12,8 +12,8 @@ export class ProductService {
   constructor(private firestore: AngularFirestore) { }
 
   // Get all products
-  getProducts(startAfter: any, pageSize: number): Observable<Product[]> {
-    return this.firestore.collection('products', ref => ref.orderBy('name').startAfter(startAfter).limit(pageSize))
+  getProducts(): Observable<Product[]> {
+    return this.firestore.collection('products', ref => ref.orderBy('name'))
       .snapshotChanges()
       .pipe(
         map(actions => actions.map(a => {
@@ -38,8 +38,8 @@ export class ProductService {
     );
   }
 
-  getProductsByCategory(category: string, startAfter?: any): Observable<any[]> {
-    let query = this.firestore.collection('products', ref => ref.where('category', '==', category).orderBy('price').startAt(startAfter));
+  getProductsByCategory(category: string): Observable<any[]> {
+    let query = this.firestore.collection('products', ref => ref.where('category', '==', category).orderBy('price'));
     return query.valueChanges();
   }
 }

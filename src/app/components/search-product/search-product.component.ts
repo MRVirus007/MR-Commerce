@@ -17,7 +17,7 @@ export class SearchProductComponent {
     this.searchTerm = "";
   }
   ngOnInit(): void {
-    this.productService.getProducts(this.currentPage, this.productsPerPage).subscribe(products => {
+    this.productService.getProducts().subscribe(products => {
       this.products = products;
     });
   }

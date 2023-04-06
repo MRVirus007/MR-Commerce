@@ -13,7 +13,7 @@
             <button type="submit" class='btn-login' id='do-login' [disabled]="signupForm.invalid">Signup</button>
             <a href="#" class='forgot' [routerLink]="['/login']">Already Registered? Login here</a>
 
-            <p class="text-danger mt-2" *ngIf="signupError !== ''">{{ signupError }}</p>
+            <p class="text-light mt-2 fw-bold" *ngIf="signupError !== ''">{{ signupError }}</p>
         </form>
     </div>
 </section>

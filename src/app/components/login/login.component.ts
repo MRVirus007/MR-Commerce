@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-
+  loginError: string | undefined = "";
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder
@@ -26,7 +26,12 @@ export class LoginComponent {
   async login() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      await this.authService.login(email, password);
+      try {
+        this.loginError = "Error: " + await this.authService.login(email, password);
+      }
+      catch (err: any) {
+        this.loginError = err.message;
+      }
     }
   }
 }

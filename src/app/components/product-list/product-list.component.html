@@ -9,7 +9,8 @@
         <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Search Product ...">
         <br>
         <div class="row">
-            <div class="col-4" *ngFor="let product of filterProducts()">
+            <div class="col-4"
+                *ngFor="let product of filterProducts() | paginate: { itemsPerPage: 5, currentPage: currentPage }">
                 <div class="card mb-4">
                     <img class="card-img-top" [src]="product.image" alt="{{product.name}}">
                     <div class="card-body">
@@ -20,11 +21,12 @@
                     </div>
                 </div>
             </div>
-            <div class="pagination-controls">
+            <!-- <div class="pagination-controls">
                 <button (click)="previousPage()" [disabled]="!hasPreviousPage()">Previous</button>
                 <span>{{ currentPage }} of {{ totalPages }}</span>
                 <button (click)="nextPage()" [disabled]="!hasNextPage()">Next</button>
-            </div>
+            </div> -->
+            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
         </div>
     </div>
 </div>
