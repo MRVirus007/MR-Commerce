@@ -1,0 +1,30 @@
+<app-header></app-header>
+<div class="row">
+    <div class="col-3">
+        <app-filter-product (filterEvent)="applyFilter($event, currentPage, productsPerPage)"></app-filter-product>
+    </div>
+    <div class="col-9">
+        <h2>Products</h2>
+        <hr>
+        <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Search Product ...">
+        <br>
+        <div class="row">
+            <div class="col-4" *ngFor="let product of filterProducts()">
+                <div class="card mb-4">
+                    <img class="card-img-top" [src]="product.image" alt="{{product.name}}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{product.name}}</h5>
+                        <p class="card-text">{{product.description}}</p>
+                        <p class="card-text">{{product.price | currency}}</p>
+                        <a routerLink="/products/{{product.id}}" class="btn btn-outline-success">View details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="pagination-controls">
+                <button (click)="previousPage()" [disabled]="!hasPreviousPage()">Previous</button>
+                <span>{{ currentPage }} of {{ totalPages }}</span>
+                <button (click)="nextPage()" [disabled]="!hasNextPage()">Next</button>
+            </div>
+        </div>
+    </div>
+</div>

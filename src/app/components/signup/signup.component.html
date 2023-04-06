@@ -1,0 +1,19 @@
+<section class='login mt-5 pt-5' id='login'>
+    <div class='head'>
+        <img src="https://mateuspntx.github.io/templates/login-page/i/telescope.png">
+        <h1 class='company'>MR - Ecommerce</h1>
+    </div>
+    <p class='msg'>Create Account</p>
+    <div class='form'>
+        <form [formGroup]="signupForm" (ngSubmit)="signup()">
+            <input type="text" placeholder='Username' class='text' id='username' required
+                formControlName="username"><br>
+            <input type="email" placeholder='Email' class='text' id='email' required formControlName="email"><br>
+            <input type="password" placeholder='*****' class='password' formControlName="password"><br>
+            <button type="submit" class='btn-login' id='do-login' [disabled]="signupForm.invalid">Signup</button>
+            <a href="#" class='forgot' [routerLink]="['/login']">Already Registered? Login here</a>
+
+            <p class="text-danger mt-2" *ngIf="signupError !== ''">{{ signupError }}</p>
+        </form>
+    </div>
+</section>

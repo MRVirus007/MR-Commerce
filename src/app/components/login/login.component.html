@@ -1,0 +1,15 @@
+<section class='login mt-5 pt-5' id='login'>
+    <div class='head'>
+        <img src="https://mateuspntx.github.io/templates/login-page/i/telescope.png">
+        <h1 class='company'>MR - Ecommerce</h1>
+    </div>
+    <p class='msg'>Welcome back</p>
+    <div class='form'>
+        <form [formGroup]="loginForm">
+            <input type="email" placeholder='Email' class='text' id='username' required formControlName="email"><br>
+            <input type="password" placeholder='*****' class='password' formControlName="password"><br>
+            <button type="button" class='btn-login' id='do-login' (click)="login()">Login</button>
+            <a href="#" class='forgot' [routerLink]="['/signup']">Not Registered? Sign up here</a>
+        </form>
+    </div>
+</section>

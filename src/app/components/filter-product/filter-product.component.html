@@ -1,0 +1,16 @@
+<div>
+    <h3>Filters</h3>
+    <div>
+        <label for="category">Category:</label>
+        <select id="category" [(ngModel)]="selectedCategory">
+            <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+        </select>
+    </div>
+    <div>
+        <label for="price-range">Price Range:</label>
+        <select id="price-range" [(ngModel)]="selectedPriceRange">
+            <option *ngFor="let range of priceRangeValues | keyvalue" [value]="range.key">{{range.key}}</option>
+        </select>
+    </div>
+    <button (click)="applyFilter()">Apply</button>
+</div>

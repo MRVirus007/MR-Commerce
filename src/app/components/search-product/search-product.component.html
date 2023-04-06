@@ -1,0 +1,7 @@
+<input type="text" [(ngModel)]="searchTerm" placeholder="Search for a product...">
+
+<ul>
+    <li *ngFor="let product of filterProducts()">
+        <a [routerLink]="['/products', product.id]">{{product.name}}</a>
+    </li>
+</ul>
