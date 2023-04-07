@@ -2,15 +2,15 @@
     <h3>Filters</h3>
     <div>
         <label for="category">Category:</label>
-        <select id="category" [(ngModel)]="selectedCategory">
+        <select id="category" class="form-select" [(ngModel)]="selectedCategory">
             <option *ngFor="let category of categories" [value]="category">{{category}}</option>
         </select>
     </div>
     <div>
         <label for="price-range">Price Range:</label>
-        <select id="price-range" [(ngModel)]="selectedPriceRange">
+        <select id="price-range" class="form-select" [(ngModel)]="selectedPriceRange">
             <option *ngFor="let range of priceRangeValues | keyvalue" [value]="range.key">{{range.key}}</option>
         </select>
-    </div>
-    <button (click)="applyFilter()">Apply</button>
+    </div> <br>
+    <button (click)="applyFilter()" class="btn btn-outline-info">Apply</button>
 </div>

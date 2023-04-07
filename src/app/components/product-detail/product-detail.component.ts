@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CartItem } from 'src/app/models/cart';
 import { Product } from 'src/app/models/product';
 import { AuthService } from 'src/app/services/auth.service';
@@ -17,7 +17,9 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
-    private cartService: CartService
+    private authService: AuthService,
+    private cartService: CartService,
+    private router: Router
   ) { this.product = { image: "", id: "", name: "", price: 0, description: "", features: [], reviews: [], category: "" } }
 
   ngOnInit(): void {
@@ -36,6 +38,10 @@ export class ProductDetailComponent implements OnInit {
       price: product.price,
       quantity: 1
     };
-    this.cartService.addCartItem(cartItem);
+    if (this.authService.isAuthenticated()) {
+      this.cartService.addCartItem(cartItem);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 }

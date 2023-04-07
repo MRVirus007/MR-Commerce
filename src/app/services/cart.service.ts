@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map, scan, switchMap, take } from 'rxjs/operators';
+import { filter, map, scan, switchMap, take } from 'rxjs/operators';
 import { AuthService } from './auth.service';
-import { CartItem } from '../models/cart';
+import { Cart, CartItem } from '../models/cart';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private userId = this.authService.getToken()?.user_id;
+  //private userId = this.authService.getToken()?.user_id;
   private userId$ = this.authService.getUserId();
   private cartItemsCollection$: Observable<AngularFirestoreCollection<CartItem>> = this.userId$.pipe(
-    map(() => this.firestore.collection<CartItem>(`users/${this.userId}/cart`))
+    map((userId) => this.firestore.collection<CartItem>(`users/${userId}/cart`))
   );
   cartItems$ = this.cartItemsCollection$.pipe(
     switchMap(collection => collection.valueChanges({ idField: 'id' })),
